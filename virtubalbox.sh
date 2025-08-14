@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #==============================================================================
-# Script para Instalar o Oracle VM VirtualBox no Debian 13 (Trixie)
+# Script para Instalar o Oracle VM VirtualBox no Debian 12
 #
 # DESCRIÇÃO: Este script automatiza o processo de adição do repositório
 #            oficial do VirtualBox, importação das chaves GPG, instalação
@@ -51,8 +51,8 @@ print_success "Chaves GPG da Oracle importadas."
 
 # ---[ Adicionando o Repositório do VirtualBox ]---
 
-echo ">>> Adicionando o repositório do VirtualBox para o Debian 13 (Trixie)..."
-echo "deb [arch=amd64 signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian trixie contrib" | tee /etc/apt/sources.list.d/virtualbox.list
+echo ">>> Adicionando o repositório do VirtualBox para o Debian $(lsb_release -cs)..."
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" | tee /etc/apt/sources.list.d/virtualbox.list
 if [ $? -ne 0 ]; then
   print_error "Falha ao adicionar o repositório do VirtualBox."
 fi
