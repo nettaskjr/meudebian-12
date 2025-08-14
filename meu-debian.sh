@@ -85,21 +85,19 @@ then
     # ---- adicionando contrib e non-free
     sed -i 's/main/main contrib non-free/' /etc/apt/sources.list
 
+    # ---- docker
+    install -m 0755 -d /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+    chmod a+r /etc/apt/keyrings/docker.asc
+
+    echo \
+        "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+        $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+        sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
     # ---- virtualbox
     wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | gpg --dearmor --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg
     echo "deb [arch=amd64 signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" | tee /etc/apt/sources.list.d/virtualbox.list
-
-    # ---- brave-browser
-    echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main" > /etc/apt/sources.list.d/brave-browser.list
-    curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -
-
-    # ---- lutris
-    echo "deb http://download.opensuse.org/repositories/home:/strycore/Debian_10/ ./" > /etc/apt/sources.list.d/lutris.list
-    wget -q https://download.opensuse.org/repositories/home:/strycore/Debian_10/Release.key -O- | sudo apt-key add -
-
-    # ---- insync
-    echo "deb http://apt.insync.io/debian $(lsb_release -cs) non-free contrib" > /etc/apt/sources.list.d/insync.list
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys ACCAF35C
     
     # ---- docker
     # colocar o envio do erro para /dev/null
